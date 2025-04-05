@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<h2>test</h2>
+
+<!--请求：
+get:
+/test/get?id=100
+/test/get?id=100&name=zs
+post:
+   请求中如果携带参数，参数不会拼接在url之后，而是封装到请求体中-->
+
+<a href="/test/get?id=100">get请求</a><br>
+<a href="/test/get2?id=100&name=zs">带多个参数的get请求</a><br>
+<form action="test/post">
+    name:<input type="text" name="name"><br>
+    pwd:<input type="text" name="pwd"><br>
+    <input type="submit" value="点我">
+</form>
+</body>
+</html>

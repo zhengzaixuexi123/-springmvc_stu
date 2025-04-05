@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生列表信息</title>
+    <style>
+        :root {
+            --primary-color: #067c7c;
+            --secondary-color: #04b2b2;
+            --background-color: #f0f8f8;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        tr:hover {
+            background-color: rgba(6, 124, 124, 0.05);
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .update, .delete {
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .update {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .update:hover {
+            background-color: var(--secondary-color);
+        }
+        .delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .delete:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+<h1>学生列表信息</h1>
+<div style="margin: 20px 0; text-align: center;">
+    <a href="/student/addInput" class="btn">添加学生</a>
+    <a href="/student/redirectPageNumber" class="btn">分页显示</a>
+</div>
+<table>
+    <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>成绩</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="stu:${students}">
+        <td th:text="${stu.no}">1112001</td>
+        <td th:text="${stu.name}">张三</td>
+        <td th:text="${stu.age}">18</td>
+        <td th:text="${stu.gender}"></td>
+        <!--        /student/delete?no=xxx-->
+        <td class="action-buttons">
+            <a th:href="@{/student/updateInput(no=${stu.no})}" class="update">更新</a>
+            <a th:href="@{/student/delete(no=${stu.no})}" class="delete">删除</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

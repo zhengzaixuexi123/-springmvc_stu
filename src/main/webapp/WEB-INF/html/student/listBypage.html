@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生列表信息</title>
+    <style>
+        :root {
+            --primary-color: #067c7c;
+            --secondary-color: #04b2b2;
+            --background-color: #8eb6b6;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            background-color: var(--primary-color);
+            color: black;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        tr:hover {
+            background-color: rgba(6, 124, 124, 0.05);
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .pagination button:hover:not(:disabled) {
+            background-color: var(--secondary-color);
+        }
+        .pagination button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .update, .delete {
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .update {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .update:hover {
+            background-color: var(--secondary-color);
+        }
+        .delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .delete:hover {
+            background-color: #c0392b;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .pagination button:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .update {
+            color: black;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .delete {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<h1>学生列表信息</h1>
+<form action="/student/listPage" method="post" id="pageForm">
+    <input type="hidden" name="currentPage" th:value="${page.currentPage}" id="currentPage">
+    <input type="hidden" name="pageSize" th:value="${page.pageSize}">
+    <table>
+        <thead>
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student:${students}">
+            <td th:text="${student.no}"></td>
+            <td th:text="${student.name}"></td>
+            <td th:text="${student.age}"></td>
+            <td>
+                <a th:href="@{/student/updateInput(no=${student.no})}" class="update">更新</a>
+                <a th:href="@{/student/delete(no=${student.no})}" class="delete" onclick="return confirm('确定要删除这条记录吗？')">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="pagination">
+        <!-- 首页 -->
+        <button type="button" th:attr="onclick='document.getElementById(\'currentPage\').value = 1; document.getElementById(\'pageForm\').submit();'" th:disabled="${page.currentPage == 1}">首页</button>
+        <!-- 上一页 -->
+        <button type="button" th:attr="onclick='document.getElementById(\'currentPage\').value = ' + (${page.currentPage} - 1) + '; document.getElementById(\'pageForm\').submit();'" th:disabled="${page.currentPage == 1}">上一页</button>
+        <!-- 页码显示 -->
+        <span th:text="'第 ' + ${page.currentPage} + ' 页 / 共 ' + ${page.totalPage} + ' 页'"></span>
+        <!-- 下一页 -->
+        <button type="button" th:attr="onclick='document.getElementById(\'currentPage\').value = ' + (${page.currentPage} + 1) + '; document.getElementById(\'pageForm\').submit();'" th:disabled="${page.currentPage == page.totalPage}">下一页</button>
+        <!-- 末页 -->
+        <button type="button" th:attr="onclick='document.getElementById(\'currentPage\').value = ' + ${page.totalPage} + '; document.getElementById(\'pageForm\').submit();'" th:disabled="${page.currentPage == page.totalPage}">末页</button>
+        <!-- 总记录数显示 -->
+        <span th:text="'共 ' + ${page.totalCount} + ' 条记录'"></span>
+    </div>
+</form>
+</body>
+</html>

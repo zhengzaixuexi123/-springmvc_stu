@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更新学生信息</title>
+    <style>
+        :root {
+            --primary-color: #067c7c;
+            --secondary-color: #04b2b2;
+            --background-color: #7ebdbd;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        input[readonly] {
+            background-color: #f9f9f9;
+            cursor: not-allowed;
+        }
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin-right: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        button[type="button"].btn {
+            background-color: #6c757d;
+        }
+        button[type="button"].btn:hover {
+            background-color: #5a6268;
+        }
+    </style>
+    <script>
+        // 表单验证函数
+        function validateStudentForm() {
+            const name = document.getElementById('studentName').value.trim();
+            const age = document.getElementById('studentAge').value;
+
+            // 验证姓名
+            if (name === '') {
+                alert('请输入学生姓名');
+                return false;
+            }
+
+            // 验证年龄
+            if (age === '') {
+                alert('请输入年龄');
+                return false;
+            }
+
+            const ageNum = parseInt(age);
+            if (isNaN(ageNum) || ageNum < 0 || ageNum > 120) {
+                alert('请输入有效的年龄（0-120之间）');
+                return false;
+            }
+
+            return true;
+        }
+
+        // 重置表单函数
+        function resetForm(formId) {
+            const form = document.getElementById(formId);
+            if (!form) return;
+
+            // 获取表单中所有输入元素
+            const inputs = form.getElementsByTagName('input');
+
+            // 遍历所有输入元素
+            for (let i = 0; i < inputs.length; i++) {
+                const input = inputs[i];
+                // 如果是只读字段（比如学号），保持不变
+                if (input.readOnly) continue;
+
+                // 根据输入类型重置值
+                switch (input.type) {
+                    case 'text':
+                        input.value = '';
+                        break;
+                    case 'number':
+                        input.value = '';
+                        break;
+                    // 可以根据需要添加其他类型的处理
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>更新学生信息</h1>
+<form action="/student/update" method="post" onsubmit="return validateStudentForm()" id="updateStudentForm">
+    <table>
+
+        <tr>
+            <th>输入学号</th>
+            <th>输入姓名</th>
+            <th>输入年龄</th>
+            <th>操作</th>
+        </tr>
+        <tr>
+            <td><input type="text" name="no" id="studentNo" th:value="${student.no}" readonly></td>
+            <td><input type="text" name="name" id="studentName" th:value="${student.name}" required></td>
+            <td><input type="number" name="age" id="studentAge" th:value="${student.age}" required></td>
+            <td>
+                <button type="submit" class="btn">更新学生</button>
+                <button type="button" class="btn" onclick="resetForm('updateStudentForm')">重置</button>
+            </td>
+        </tr>
+
+    </table>
+</form>
+</body>
+</html>

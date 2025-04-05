@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>添加学生信息</title>
+    <style>
+        :root {
+            --primary-color: #067c7c;
+            --secondary-color: #04b2b2;
+            --background-color: #f0f8f8;
+            --text-color: #333;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #d5e6e6;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .btn {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        .btn-reset {
+            margin-top: 5px;
+            background-color: #6c757d;
+        }
+        .btn-reset:hover {
+            background-color: #5a6268;
+        }
+    </style>
+    <script>
+        function resetForm(formId) {
+            document.getElementById(formId).reset();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>添加学生信息</h1>
+        <form action="/student/add" method="post" id="addStudentForm" onsubmit="return validateStudentForm()">
+            <table>
+                <tr>
+                    <th>输入学号</th>
+                    <th>输入姓名</th>
+                    <th>输入年龄</th>
+                    <th>输入成绩</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="no" id="studentNo" required placeholder="请输入学号"></td>
+                    <td><input type="text" name="name" id="studentName" required placeholder="请输入姓名"></td>
+                    <td><input type="number" name="age" id="studentAge" required placeholder="请输入年龄"></td>
+                    <td><input type="number" name="gender" id="studentGender" required placeholder="录入成绩"></td>
+                    <td>
+                        <button type="submit" class="btn">添加学生</button>
+                        <button type="button" class="btn btn-reset" onclick="resetForm('addStudentForm')">重置信息</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

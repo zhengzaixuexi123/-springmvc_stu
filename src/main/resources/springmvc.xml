@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+<!--    扫描TestController的注解-->
+    <context:component-scan base-package="com.example.controller"/>
+
+<!--    视图处理器
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+&lt;!&ndash;        设置匹配的jsp文件所在位置&ndash;&gt;
+        <property name="prefix" value="/WEB-INF/jsp/"></property>
+&lt;!&ndash;        设置匹配的文件的后缀名&ndash;&gt;
+        <property name="suffix" value=".jsp"></property>
+    </bean>-->
+
+<!--    模板处理器-->
+    <bean id="templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="characterEncoding" value="utf-8"/>
+<!--        匹配html位置-->
+        <property name="prefix" value="/WEB-INF/html/"/>
+        <property name="suffix" value=".html"/>
+<!--        模板的模式-->
+        <property name="templateMode" value="HTML"/>
+    </bean>
+<!--    模板引擎-->
+    <bean id="springTemplateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+<!--        设置模板处理器-->
+        <property name="templateResolver" ref="templateResolver"/>
+    </bean>
+<!--    thymeleaf视图处理器-->
+    <bean  class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+<!--        设置编码格式：可以解决模板html中的中文乱码-->
+        <property name="characterEncoding" value="utf-8"/>
+        <property name="templateEngine" ref="springTemplateEngine"/>
+    </bean>
+</beans>
+
+<!--
+1配置模板处理器
+2配置模板引擎
+3配置视图处理器
+-->
